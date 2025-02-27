@@ -1,0 +1,53 @@
+pool:
+  vmImage: 'windows-2022'
+
+variables:
+- group: 'github-config'
+
+stages:
+
+- stage: Pack  
+  jobs:
+  - job: 
+    steps:
+    - checkout: self
+      persistCredentials: true
+    - task: ArchiveFiles@2
+      displayName: 'Create Zip archive'
+      inputs:
+        rootFolderOrFile: 'src'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/CodeListHub.Explorer.zip'
+        replaceExistingArchive: true
+    - task: CopyFiles@2
+      displayName: 'Copy Maintenance Page'
+      inputs:
+        Contents: 'nginx-maintenance.html'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+        OverWrite: true
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish build artifacts'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
+- stage: GitHub
+  jobs:
+  - job: 
+    steps:
+    - checkout: self
+      persistCredentials: true
+    - task: PowerShell@2
+      displayName: 'Push to GitHub'
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+      inputs:
+        targetType: 'inline'
+        script: |
+          git remote add github https://$(PAT)@github.com/openpotato/codelisthub.explorer.git
+          git fetch github
+          git checkout .
+          git push github HEAD:main
+          git push --tags github HEAD:main
+        pwsh: true
