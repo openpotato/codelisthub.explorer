@@ -5,6 +5,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>CodeListHub Explorer</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha256-PI8n5gCcz9cQqQXm3PEtDuPG8qx9oFsFctPg0S5zb8g=" crossorigin="anonymous">
+        <style>
+            .modal-dialog {
+                max-width: 90vw; 
+            }
+            .modal-body {
+                max-height: 80vh; 
+                overflow-y: auto;
+            }
+        </style>    
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -72,6 +81,26 @@
                     <button id="loadMoreButton" class="btn btn-outline-primary" style="display: none;">Mehr anzeigen...</button>
                 </div>
             </div>
+            <div class="modal fade" id="csvModal" tabindex="-1" aria-labelledby="csvModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="csvModalLabel">Anzeige der CSV-Datei</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="csvTable">
+                                    <thead>
+                                        <tr id="csvHeader"></tr>
+                                    </thead>
+                                    <tbody id="csvBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
         </div>
     </body>
     <footer>
@@ -90,14 +119,16 @@
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha256-3gQJhtmj7YnV1fmtbVcnAV6eI4ws0Tr48bVZCThtCGQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.5.2/papaparse.min.js" integrity="sha256-pd98WVusrgafmx1NfFkSNZKkXNBhFPcZb+ZA9u1DANg=" crossorigin="anonymous"></script>
     <script src="../app.js"></script>
     <script>
         const translations = { 
             "DownloadOCL": "OCL",
             "DownloadOCLMeta": "OCL (Meta)",
             "DownloadCSV": "CSV",
+            "ViewCSV": "CSV anzeigen",
             "PublishedAt": "Veröffentlicht:",
-            "NoDocuments": "Keine passdenden Dokumente gefunden" 
+            "NoDocuments": "Keine passenden Dokumente gefunden" 
         };
         const app = new Application(translations);
     </script>

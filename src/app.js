@@ -107,17 +107,21 @@ class UI {
                         </div>
                         <div class="mb-2">${doc.longName}</div>
                         <div class="d-flex flex-wrap justify-content-between">
-                            <div class="d-flex">
-                                <button type="button" class="btn btn-primary btn-sm me-2" onclick="app.fetchJsonDocument('${doc.canonicalVersionUri}', '${doc.language}', false)">
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-primary btn-sm" onclick="app.fetchJsonDocument('${doc.canonicalVersionUri}', '${doc.language}', false)">
                                     ${app.translations.DownloadOCL}
                                 </button>
-                                <button type="button" class="btn btn-primary btn-sm me-2" onclick="app.fetchJsonDocument('${doc.canonicalVersionUri}', '${doc.language}', true)">
+                                <button type="button" class="btn btn-primary btn-sm" onclick="app.fetchJsonDocument('${doc.canonicalVersionUri}', '${doc.language}', true)">
                                     ${app.translations.DownloadOCLMeta}
                                 </button>
                                 ${doc.type === 'CodeList' ? `
-                                <button type="button" class="btn btn-primary btn-sm me-2" 
+                                <button type="button" class="btn btn-primary btn-sm" 
                                     onclick="app.fetchCsvDocument('${doc.canonicalVersionUri}', '${doc.language}')">
                                     ${app.translations.DownloadCSV}
+                                </button>
+                                <button type="button" class="btn btn-outline-primary btn-sm" 
+                                    onclick="app.fetchAndShowCsvDocument('${doc.canonicalVersionUri}', '${doc.language}')">
+                                    ${app.translations.ViewCSV}
                                 </button>` : ''}
                             </div>
                             <small>${app.translations.PublishedAt} ${new Date(doc.publishedAt).toLocaleDateString()}</small>
@@ -202,6 +206,58 @@ class Application {
             console.error("Error downloading document:", error);
         }
     }
+
+    async fetchAndShowCsvDocument(canonicalVersionUri, language) {
+        try {
+            
+            const blob = await this.restApiClient.getCsvBlob(`/documents/${encodeURIComponent(canonicalVersionUri)}/alternative-format`, { 
+                "language": language 
+            });
+            
+            const csvText = await blob.text();
+
+            if (!csvText.trim()) {
+                alert("CSV file is empty or couldn't be loaded.");
+                return;
+            }
+    
+            const csvHeader = document.getElementById("csvHeader");
+            const csvBody = document.getElementById("csvBody");
+            csvHeader.innerHTML = "";
+            csvBody.innerHTML = "";
+    
+            Papa.parse(csvText, {
+                delimiter: ",", 
+                skipEmptyLines: true,
+                complete: function (result) {
+                    if (result.data.length === 0) {
+                        alert("No data found in CSV.");
+                        return;
+                    }
+                    result.data[0].forEach(header => {
+                        const th = document.createElement("th");
+                        th.textContent = header.trim();
+                        csvHeader.appendChild(th);
+                    });
+                    for (let i = 1; i < result.data.length; i++) {
+                        const tr = document.createElement("tr");
+                        result.data[i].forEach(cell => {
+                            const td = document.createElement("td");
+                            td.textContent = cell.trim();
+                            tr.appendChild(td);
+                        });
+                        csvBody.appendChild(tr);
+                    }
+                }
+            });
+
+            const csvModal = new bootstrap.Modal(document.getElementById("csvModal"));
+            csvModal.show();
+
+        } catch (error) {
+            console.error("Error downloading document:", error);
+        }
+    }    
 
     async fetchDocumentList() {
         const documentType = this.ui.documentTypeSelector.value;
