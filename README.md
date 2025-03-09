@@ -6,9 +6,10 @@ The source code for the CodeListHub Explorer. Build with HTML and plain vanilla 
 
 ## Technology stack
 
-+ [Bootstrap 5](https://getbootstrap.com/)
 + [HTML](https://developer.mozilla.org/docs/Web/HTML)
 + [JavaScript](https://developer.mozilla.org/docs/Web/JavaScript)
++ [Bootstrap 5](https://getbootstrap.com/)
++ [Papa Parse](https://www.papaparse.com/)
 
 ## Getting started 
 

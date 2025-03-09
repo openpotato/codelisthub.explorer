@@ -105,9 +105,11 @@ class UI {
                                 <small class="text-body-tertiary">${doc.canonicalVersionUri}</small>
                             </div>
                         </div>
-                        <div class="mb-2">${doc.longName}</div>
-                        <div class="d-flex flex-wrap justify-content-between">
-                            <div class="d-flex gap-2">
+                        <div class="d-flex flex-wrap justify-content-between gap-2 mt-1 mb-2">
+                            <span>${doc.longName}</span>
+                            <small>${app.translations.PublishedAt} ${new Date(doc.publishedAt).toLocaleDateString()}</small>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2">
                                 <button type="button" class="btn btn-primary btn-sm" onclick="app.fetchJsonDocument('${doc.canonicalVersionUri}', '${doc.language}', false)">
                                     ${app.translations.DownloadOCL}
                                 </button>
@@ -123,8 +125,6 @@ class UI {
                                     onclick="app.fetchAndShowCsvDocument('${doc.canonicalVersionUri}', '${doc.language}')">
                                     ${app.translations.ViewCSV}
                                 </button>` : ''}
-                            </div>
-                            <small>${app.translations.PublishedAt} ${new Date(doc.publishedAt).toLocaleDateString()}</small>
                         </div>
                     </div>
                 </li>`;
