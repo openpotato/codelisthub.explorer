@@ -272,9 +272,9 @@ class Application {
                 "page": this.currentPage,
                 "pageSize": this.pageSize,
                 "language": language !== "" ? language : "", 
-                "publishedFrom": publishedFrom !== "" ? encodeURIComponent(new Date(publishedFrom).toISOString()) : "",
-                "publishedUntil": publishedFrom !== "" ? encodeURIComponent(new Date(publishedUntil).toISOString()) : "",
-                "searchTerm": searchTerm !== "" ? encodeURIComponent(searchTerm) : ""
+                "publishedFrom": publishedFrom !== "" ? new Date(publishedFrom + "T00:00:00").toISOString() : "",
+                "publishedUntil": publishedUntil !== "" ? new Date(publishedUntil + "T00:00:00").toISOString() : "",
+                "searchTerm": searchTerm !== "" ? searchTerm : ""
             });
     
             this.totalPages = data.totalPages;
