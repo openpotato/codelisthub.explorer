@@ -92,7 +92,7 @@ class UI {
         documentList.forEach(doc => {
             const row = `
                 <li class="list-group-item d-flex align-items-center justify-content-start">
-                    <div class="flex-grow-1">
+                    <div class="flex-grow-1 my-2">
                         <div class="d-flex flex-wrap justify-content-between">
                             <div class="d-flex flex-wrap align-items-center justify-content-start">
                                 <span class="me-2 fw-bold">${doc.shortName}</span>
