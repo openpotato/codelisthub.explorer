@@ -43,7 +43,7 @@
         <div class="container mt-4">
             <div class="row">
                 <div class="col-md-3 mb-4">
-                    <label for="documentTypeSelector" class="form-label">Select Document Type:</label>
+                    <label for="documentTypeSelector" class="form-label">Select Document Type</label>
                     <select class="form-select" id="documentTypeSelector">
                         <option value="">All</option>
                         <option value="codeList">Code Lists</option>
@@ -51,7 +51,7 @@
                     </select>
                 </div>
                 <div class="col-md-3 mb-4">
-                    <label for="languageSelector" class="form-label">Select Language:</label>
+                    <label for="languageSelector" class="form-label">Select Language</label>
                     <select class="form-select" id="languageSelector">
                         <option value="">All languages</option>
                         <option value="de">German</option>
@@ -59,27 +59,29 @@
                     </select>
                 </div>
                 <div class="col-md-3 mb-4">
-                    <label for="publishedFrom" class="form-label">Published from:</label>
+                    <label for="publishedFrom" class="form-label">Published from</label>
                     <input type="date" id="publishedFrom" class="form-control">
                 </div>
                 <div class="col-md-3 mb-4">
-                    <label for="publishedUntil" class="form-label">Published until:</label>
+                    <label for="publishedUntil" class="form-label">Published until</label>
                     <input type="date" id="publishedUntil" class="form-control">
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 mb-4">
-                    <label for="searchTerm" class="form-label">Search by Name and Publisher:</label>
+                    <label for="searchTerm" class="form-label">Search by Name, Publisher and URI</label>
                     <input type="text" id="searchTerm" class="form-control" placeholder="Enter search term">
                 </div>
             </div>
             <div class="row mb-4">
-                <label for="documentList" class="form-label">Found documents</label>
-                <ul id="documentList" class="list-group">
-                    <!-- Data will be inserted here dynamically -->
-                </ul>
-                <div class="d-flex justify-content-center my-4">
-                    <button id="loadMoreButton" class="btn btn-outline-primary" style="display: none;">Show more...</button>
+                <div class="col-md-12">
+                    <div class="form-label">Found documents</div>
+                    <ul id="documentList" class="list-group">
+                        <!-- Data will be inserted here dynamically -->
+                    </ul>
+                    <div class="d-flex justify-content-center my-4">
+                        <button id="loadMoreButton" class="btn btn-outline-primary" style="display: none;">Show more...</button>
+                    </div>
                 </div>
             </div>
             <div class="modal fade" id="csvModal" tabindex="-1" aria-labelledby="csvModalLabel" aria-hidden="true">

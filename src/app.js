@@ -92,7 +92,7 @@ class UI {
         documentList.forEach(doc => {
             const row = `
                 <li class="list-group-item d-flex align-items-center justify-content-start">
-                    <div class="flex-grow-1">
+                    <div class="flex-grow-1 my-2">
                         <div class="d-flex flex-wrap justify-content-between">
                             <div class="d-flex flex-wrap align-items-center justify-content-start">
                                 <span class="me-2 fw-bold">${doc.shortName}</span>
@@ -234,18 +234,33 @@ class Application {
                         alert("No data found in CSV.");
                         return;
                     }
+                    
+                    // Add leading header for row number
+                    const thIndex = document.createElement("th");
+                    thIndex.textContent = "#";
+                    csvHeader.appendChild(thIndex);
+                    // Add headers for data
                     result.data[0].forEach(header => {
                         const th = document.createElement("th");
                         th.textContent = header.trim();
                         csvHeader.appendChild(th);
                     });
+
                     for (let i = 1; i < result.data.length; i++) {
+
                         const tr = document.createElement("tr");
+
+                        // Add leading index cell
+                        const tdIndex = document.createElement("td");
+                        tdIndex.textContent = i.toString();
+                        tr.appendChild(tdIndex);
+                        // Add data cells
                         result.data[i].forEach(cell => {
                             const td = document.createElement("td");
                             td.textContent = cell.trim();
                             tr.appendChild(td);
                         });
+
                         csvBody.appendChild(tr);
                     }
                 }
@@ -272,9 +287,9 @@ class Application {
                 "page": this.currentPage,
                 "pageSize": this.pageSize,
                 "language": language !== "" ? language : "", 
-                "publishedFrom": publishedFrom !== "" ? encodeURIComponent(new Date(publishedFrom).toISOString()) : "",
-                "publishedUntil": publishedFrom !== "" ? encodeURIComponent(new Date(publishedUntil).toISOString()) : "",
-                "searchTerm": searchTerm !== "" ? encodeURIComponent(searchTerm) : ""
+                "publishedFrom": publishedFrom !== "" ? new Date(publishedFrom + "T00:00:00").toISOString() : "",
+                "publishedUntil": publishedUntil !== "" ? new Date(publishedUntil + "T00:00:00").toISOString() : "",
+                "searchTerm": searchTerm !== "" ? searchTerm : ""
             });
     
             this.totalPages = data.totalPages;
