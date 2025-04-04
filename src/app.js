@@ -234,18 +234,33 @@ class Application {
                         alert("No data found in CSV.");
                         return;
                     }
+                    
+                    // Add leading header for row number
+                    const thIndex = document.createElement("th");
+                    thIndex.textContent = "#";
+                    csvHeader.appendChild(thIndex);
+                    // Add headers for data
                     result.data[0].forEach(header => {
                         const th = document.createElement("th");
                         th.textContent = header.trim();
                         csvHeader.appendChild(th);
                     });
+
                     for (let i = 1; i < result.data.length; i++) {
+
                         const tr = document.createElement("tr");
+
+                        // Add leading index cell
+                        const tdIndex = document.createElement("td");
+                        tdIndex.textContent = i.toString();
+                        tr.appendChild(tdIndex);
+                        // Add data cells
                         result.data[i].forEach(cell => {
                             const td = document.createElement("td");
                             td.textContent = cell.trim();
                             tr.appendChild(td);
                         });
+
                         csvBody.appendChild(tr);
                     }
                 }
